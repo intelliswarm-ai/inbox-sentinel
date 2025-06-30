@@ -124,11 +124,147 @@ def verify():
               help='Model to use for analysis')
 def analyze(email_content, subject, sender, model):
     """Analyze an email for phishing/spam"""
-    console.print(f"[bold]Analyzing email with {model}...[/bold]")
+    import asyncio
+    from inbox_sentinel.core.types import Email
+    from rich.panel import Panel
+    from rich.progress import Progress, SpinnerColumn, TextColumn
     
-    # Import and use the appropriate detector
-    # This would be implemented to load the model and analyze
-    console.print("[yellow]Analysis feature coming soon![/yellow]")
+    async def run_analysis():
+        # Create email object first
+        email = Email(content=email_content, subject=subject, sender=sender)
+        
+        # Import the appropriate detector
+        if model == 'naive-bayes':
+            from inbox_sentinel.ml.models.naive_bayes import NaiveBayesDetector
+            detector = NaiveBayesDetector()
+        elif model == 'svm':
+            from inbox_sentinel.ml.models.svm import SVMDetector
+            detector = SVMDetector()
+        elif model == 'random-forest':
+            from inbox_sentinel.ml.models.random_forest import RandomForestDetector
+            detector = RandomForestDetector()
+        elif model == 'logistic-regression':
+            from inbox_sentinel.ml.models.logistic_regression import LogisticRegressionDetector
+            detector = LogisticRegressionDetector()
+        elif model == 'neural-network':
+            from inbox_sentinel.ml.models.neural_network import NeuralNetworkDetector
+            detector = NeuralNetworkDetector()
+        
+        # Initialize detector
+        result = None
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task(f"Initializing {model} model...", total=None)
+            try:
+                await detector.initialize(use_pretrained=True)
+                progress.update(task, completed=True)
+                
+                # Check if model is actually trained
+                if not detector.is_trained:
+                    raise Exception("Model initialization succeeded but model is not trained")
+                    
+            except Exception as e:
+                progress.update(task, completed=True)
+                console.print(f"[red]Model not available: The {model} model needs to be trained[/red]")
+                console.print(f"\n[yellow]The ML models need to be trained with the new package structure.[/yellow]")
+                console.print("[yellow]Please run: [bold]inbox-sentinel models train[/bold][/yellow]")
+                console.print("\n[dim]For now, showing a demo with rule-based detection:[/dim]\n")
+                
+                # Fall back to rule-based detection for demo
+                from inbox_sentinel.core.types import PredictionResult
+                import re
+                
+                # Simple rule-based analysis
+                full_text = f"{email.subject} {email.content} {email.sender}".lower()
+                spam_keywords = ['winner', 'prize', 'click here', 'urgent', 'suspended', 'million', 'lottery']
+                spam_score = sum(1 for kw in spam_keywords if kw in full_text)
+                is_spam = spam_score >= 2
+                
+                result = PredictionResult(
+                    model_name="fallback",
+                    algorithm="Rule-Based (Fallback)",
+                    is_spam=is_spam,
+                    spam_probability=min(0.95, spam_score * 0.2),
+                    ham_probability=max(0.05, 1 - spam_score * 0.2),
+                    confidence=min(0.9, spam_score * 0.3),
+                    features=[{'feature': f'keyword: {kw}', 'type': 'rule'} 
+                             for kw in spam_keywords if kw in full_text][:5]
+                )
+                
+                progress.update(task, completed=True)
+        
+        # Analyze email (if not already done via fallback)
+        if result is None:
+            console.print(f"\n[bold cyan]Analyzing email...[/bold cyan]")
+            try:
+                result = await detector.analyze(email)
+            except Exception as e:
+                console.print(f"[red]Error during analysis: {e}[/red]")
+                import traceback
+                console.print(f"[dim]{traceback.format_exc()}[/dim]")
+                return
+        
+        # Display results
+        try:
+            if result.error:
+                console.print(f"[red]Analysis error: {result.error}[/red]")
+                return
+            
+            # Determine status color and icon
+            if result.is_spam:
+                status_color = "red"
+                status_icon = "⚠️"
+                status_text = "SPAM/PHISHING DETECTED"
+            else:
+                status_color = "green"
+                status_icon = "✅"
+                status_text = "LEGITIMATE EMAIL"
+            
+            # Create result panel
+            result_content = f"""
+{status_icon} [bold {status_color}]{status_text}[/bold {status_color}]
+
+[bold]Model:[/bold] {result.algorithm}
+[bold]Confidence:[/bold] {result.confidence:.1%}
+[bold]Spam Probability:[/bold] {result.spam_probability:.1%}
+[bold]Ham Probability:[/bold] {result.ham_probability:.1%}
+"""
+            
+            # Add top features if available
+            if result.features:
+                result_content += "\n[bold]Top Indicators:[/bold]"
+                for i, feature in enumerate(result.features[:5], 1):
+                    result_content += f"\n  {i}. {feature['feature']} ({feature['type']})"
+            
+            # Add metadata if available
+            if result.metadata and model == 'neural-network':
+                result_content += f"\n\n[bold]Network Details:[/bold]"
+                result_content += f"\n  Hidden Layers: {result.metadata.get('hidden_layers', 'N/A')}"
+                result_content += f"\n  Iterations: {result.metadata.get('n_iter', 'N/A')}"
+                result_content += f"\n  Final Loss: {result.metadata.get('loss', 'N/A'):.4f}"
+            
+            console.print(Panel(
+                result_content.strip(),
+                title="Analysis Results",
+                border_style=status_color
+            ))
+            
+            # Add recommendation
+            if result.is_spam:
+                console.print("\n[yellow]⚠️  Recommendation: This email appears to be spam or phishing. Do not click any links or provide personal information.[/yellow]")
+            else:
+                console.print("\n[green]✅ This email appears to be legitimate based on the analysis.[/green]")
+                
+        except Exception as e:
+            console.print(f"[red]Error displaying results: {e}[/red]")
+            import traceback
+            console.print(f"[dim]{traceback.format_exc()}[/dim]")
+    
+    # Run the async function
+    asyncio.run(run_analysis())
 
 
 @cli.command()
