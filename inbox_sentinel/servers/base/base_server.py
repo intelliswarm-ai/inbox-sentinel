@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from typing import Dict, Any, List
 from fastmcp import FastMCP, Context
 import logging
+import asyncio
 
 from inbox_sentinel.core.types import Email, PredictionResult
 from inbox_sentinel.core.base_detector import BaseDetector
@@ -14,11 +15,15 @@ from inbox_sentinel.core.base_detector import BaseDetector
 class BaseMCPServer(ABC):
     """Base class for MCP server implementations"""
     
-    def __init__(self, server_name: str, detector: BaseDetector):
+    def __init__(self, server_name: str, detector: BaseDetector, auto_initialize: bool = True):
         self.server_name = server_name
         self.detector = detector
         self.mcp = FastMCP(server_name)
         self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
+        
+        # Auto-initialize the model if requested
+        if auto_initialize:
+            self._initialize_model_sync()
         
         # Register tools
         self._register_tools()
@@ -77,6 +82,23 @@ class BaseMCPServer(ABC):
                 'is_trained': info.is_trained,
                 'parameters': info.parameters
             }
+    
+    def _initialize_model_sync(self):
+        """Initialize the model synchronously"""
+        try:
+            # Run the async initialize in a sync context
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            result = loop.run_until_complete(self.detector.initialize(use_pretrained=True))
+            loop.close()
+            
+            if self.detector.is_trained:
+                self.logger.info(f"Successfully loaded pre-trained {self.detector.algorithm} model")
+            else:
+                self.logger.warning(f"{self.detector.algorithm} model not trained - initialization required")
+                
+        except Exception as e:
+            self.logger.error(f"Failed to initialize model: {e}")
     
     def run(self):
         """Run the MCP server"""

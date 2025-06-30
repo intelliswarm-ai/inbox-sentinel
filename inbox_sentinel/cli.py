@@ -114,24 +114,58 @@ def verify():
 
 
 @cli.command()
-@click.option('--email-content', '-c', required=True, help='Email content')
-@click.option('--subject', '-s', required=True, help='Email subject')
-@click.option('--sender', '-f', required=True, help='Sender email address')
+@click.option('--email-content', '-c', help='Email content')
+@click.option('--subject', '-s', help='Email subject')
+@click.option('--sender', '-f', help='Sender email address')
+@click.option('--file', '-F', type=click.File('r', encoding='utf-8'), help='Read email from file')
+@click.option('--forwarded', '-fw', is_flag=True, help='Parse as forwarded email')
 @click.option('--model', '-m', 
               type=click.Choice(['naive-bayes', 'svm', 'random-forest', 
                                'logistic-regression', 'neural-network']),
               default='neural-network',
               help='Model to use for analysis')
-def analyze(email_content, subject, sender, model):
+def analyze(email_content, subject, sender, file, forwarded, model):
     """Analyze an email for phishing/spam"""
     import asyncio
     from inbox_sentinel.core.types import Email
+    from inbox_sentinel.utils.email_parser import parse_gmail_forward
     from rich.panel import Panel
     from rich.progress import Progress, SpinnerColumn, TextColumn
     
+    # Handle input sources
+    if file:
+        email_text = file.read()
+        if forwarded:
+            # Parse forwarded email
+            email = parse_gmail_forward(email_text)
+            console.print("[dim]Parsed forwarded email[/dim]")
+            console.print(f"[dim]Original sender: {email.sender}[/dim]")
+            console.print(f"[dim]Subject: {email.subject}[/dim]\n")
+        else:
+            # Treat file content as email body
+            email = Email(
+                content=email_text.strip(),
+                subject=subject or "Email from file",
+                sender=sender or "unknown@file.com"
+            )
+    elif email_content:
+        if forwarded:
+            # Parse the content as a forwarded email
+            email = parse_gmail_forward(email_content)
+            console.print("[dim]Parsed forwarded email[/dim]")
+            console.print(f"[dim]Original sender: {email.sender}[/dim]")
+            console.print(f"[dim]Subject: {email.subject}[/dim]\n")
+        else:
+            # Regular email from command line
+            if not subject or not sender:
+                console.print("[red]Error: --subject and --sender are required when not using --forwarded[/red]")
+                return
+            email = Email(content=email_content, subject=subject, sender=sender)
+    else:
+        console.print("[red]Error: Provide either --email-content or --file[/red]")
+        return
+    
     async def run_analysis():
-        # Create email object first
-        email = Email(content=email_content, subject=subject, sender=sender)
         
         # Import the appropriate detector
         if model == 'naive-bayes':
@@ -265,6 +299,108 @@ def analyze(email_content, subject, sender, model):
     
     # Run the async function
     asyncio.run(run_analysis())
+
+
+@cli.command()
+@click.option('--email-content', '-c', help='Email content')
+@click.option('--file', '-F', type=click.File('r', encoding='utf-8'), help='Read email from file')
+@click.option('--forwarded', '-fw', is_flag=True, help='Parse as forwarded email')
+@click.option('--llm-provider', type=click.Choice(['ollama', 'simple']), default='simple',
+              help='LLM provider for orchestration (ollama requires local Ollama server)')
+@click.option('--model-name', default='llama2', help='Model name for Ollama')
+def orchestrate(email_content, file, forwarded, llm_provider, model_name):
+    """Analyze email using LLM-orchestrated ensemble of models"""
+    import asyncio
+    from inbox_sentinel.core.types import Email
+    from inbox_sentinel.utils.email_parser import parse_gmail_forward
+    from inbox_sentinel.orchestration import SimpleOrchestrator, LangChainOrchestrator, OrchestrationConfig
+    from rich.panel import Panel
+    from rich.markdown import Markdown
+    
+    # Handle input sources (similar to analyze command)
+    if file:
+        email_text = file.read()
+        if forwarded:
+            email = parse_gmail_forward(email_text)
+        else:
+            email = Email(
+                content=email_text.strip(),
+                subject="Email from file",
+                sender="unknown@file.com"
+            )
+    elif email_content:
+        if forwarded:
+            email = parse_gmail_forward(email_content)
+        else:
+            console.print("[red]Error: For direct content, use --forwarded or provide via --file[/red]")
+            return
+    else:
+        console.print("[red]Error: Provide either --email-content or --file[/red]")
+        return
+    
+    console.print(f"[bold cyan]Orchestrated Email Analysis[/bold cyan]\n")
+    console.print(f"[dim]Subject: {email.subject}[/dim]")
+    console.print(f"[dim]Sender: {email.sender}[/dim]\n")
+    
+    async def run_orchestration():
+        try:
+            if llm_provider == 'ollama':
+                console.print("[yellow]Using Ollama LLM orchestration (requires Ollama server running)[/yellow]")
+                config = OrchestrationConfig(
+                    llm_provider="ollama",
+                    model_name=model_name,
+                    temperature=0.1,
+                    verbose=True
+                )
+                orchestrator = LangChainOrchestrator(config)
+                # Since we're in an async context, use the async method
+                result = await orchestrator.analyze_email(email)
+            else:
+                console.print("[green]Using consensus-based orchestration[/green]")
+                orchestrator = SimpleOrchestrator()
+                result = await orchestrator.analyze_email(email)
+            
+            if result['success']:
+                # Display analysis
+                console.print(Panel(
+                    Markdown(result['analysis']),
+                    title="Orchestrated Analysis Result",
+                    border_style="cyan"
+                ))
+                
+                # Show detailed results if available
+                if 'detailed_results' in result:
+                    console.print("\n[bold]Detailed Model Results:[/bold]")
+                    from rich.table import Table
+                    
+                    table = Table(show_header=True)
+                    table.add_column("Model", style="cyan")
+                    table.add_column("Verdict", style="bold")
+                    table.add_column("Confidence", style="magenta")
+                    table.add_column("Spam Prob", style="red")
+                    
+                    for model, res in result['detailed_results'].items():
+                        if 'error' not in res:
+                            verdict = "SPAM" if res['is_spam'] else "HAM"
+                            color = "red" if res['is_spam'] else "green"
+                            table.add_row(
+                                model.replace('_', ' ').title(),
+                                f"[{color}]{verdict}[/{color}]",
+                                f"{res['confidence']:.1%}",
+                                f"{res['spam_probability']:.1%}"
+                            )
+                    
+                    console.print(table)
+            else:
+                console.print(f"[red]Orchestration failed: {result.get('error', 'Unknown error')}[/red]")
+                
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            import traceback
+            console.print(f"[dim]{traceback.format_exc()}[/dim]")
+    
+    # Run the orchestration
+    asyncio.run(run_orchestration())
 
 
 @cli.command()

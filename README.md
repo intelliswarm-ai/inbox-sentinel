@@ -63,6 +63,8 @@ inbox-sentinel/
 - **Ensemble Methods**: 5 consensus strategies for combining predictions
 - **Real-time Analysis**: Fast inference (<100ms per email)
 - **Explainable AI**: Feature importance and confidence scores
+- **LLM Orchestration**: Use local LLMs to intelligently coordinate multiple models
+- **Forwarded Email Support**: Automatically parse and analyze Gmail forwarded emails
 
 ### Professional Development
 - **Clean Architecture**: Separation of concerns, SOLID principles
@@ -86,6 +88,39 @@ Models trained on **161,640 emails** from 6 datasets:
 
 ## 📖 Usage
 
+### Orchestrated Analysis
+
+The orchestration feature runs multiple ML models in parallel and combines their results for more accurate detection:
+
+```bash
+# Simple consensus-based orchestration (no dependencies)
+inbox-sentinel orchestrate -F email.txt --forwarded
+
+# LLM-powered orchestration with Ollama (requires setup)
+inbox-sentinel orchestrate -F email.txt --forwarded --llm-provider ollama --model-name llama2
+```
+
+**Two Orchestration Modes:**
+
+1. **Simple Consensus (Default)**
+   - Runs all 5 ML models in parallel
+   - Uses majority voting (e.g., 4/5 models = spam)
+   - Calculates average confidence scores
+   - No additional dependencies required
+   - Fast and reliable
+
+2. **LLM-Powered (Advanced)**
+   - Uses local LLM to coordinate analysis
+   - LLM selects which models to query
+   - Provides natural language explanations
+   - Can adapt strategy based on results
+   - Requires Ollama + LangChain setup
+
+**How It Works:**
+- Each MCP server (Naive Bayes, SVM, Random Forest, Logistic Regression, Neural Network) is wrapped as a tool
+- In simple mode: All tools are called and results are combined
+- In LLM mode: The AI agent decides which tools to use and interprets results
+
 ### CLI Commands
 
 ```bash
@@ -101,6 +136,12 @@ inbox-sentinel models verify
 # Analyze an email
 inbox-sentinel analyze -c "Email content" -s "Subject" -f "sender@email.com"
 
+# Analyze a forwarded Gmail email
+inbox-sentinel analyze -F forwarded_email.txt --forwarded
+
+# Orchestrate multiple models with consensus
+inbox-sentinel orchestrate -F email.txt --forwarded
+
 # Start a specific MCP server
 inbox-sentinel server start neural-network
 ```
@@ -112,6 +153,112 @@ Each server provides these tools:
 - `train_model` - Train with new data
 - `initialize_model` - Initialize/load pre-trained model
 - `get_model_info` - Get model information
+
+### LLM-Orchestrated Analysis with Ollama
+
+For advanced analysis using a local LLM to orchestrate multiple detection models:
+
+#### Setup Ollama (One-time setup)
+
+**Windows:**
+```bash
+# 1. Download and install from https://ollama.ai/download/windows
+# 2. Start Ollama server (in a separate terminal)
+ollama serve
+
+# 3. Pull a model (in your main terminal)
+ollama pull llama2     # 7B parameters, balanced
+# Or use smaller/faster models:
+ollama pull phi        # 2.7B parameters, very fast
+ollama pull mistral    # 7B parameters, fast
+```
+
+**macOS/Linux:**
+```bash
+# 1. Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# 2. Start Ollama server
+ollama serve
+
+# 3. Pull a model
+ollama pull llama2
+```
+
+#### Install LangChain
+```bash
+# Option 1: Install LangChain dependencies as an extra
+pip install -e ".[langchain]"
+
+# Option 2: Install LangChain dependencies separately
+pip install langchain langchain-community langchain-openai
+
+# Option 3: Use the requirements file
+pip install -r requirements-langchain.txt
+```
+
+#### Run LLM-Orchestrated Analysis
+```bash
+# Analyze forwarded email with LLM orchestration
+inbox-sentinel orchestrate -F email.txt --forwarded --llm-provider ollama --model-name llama2
+
+# Or use simple consensus-based orchestration (no LLM required)
+inbox-sentinel orchestrate -F email.txt --forwarded --llm-provider simple
+```
+
+**Recommended Models for Tool Use:**
+```bash
+# Mistral - Better at following tool-use instructions
+ollama pull mistral
+inbox-sentinel orchestrate -F email.txt --forwarded --llm-provider ollama --model-name mistral
+
+# Mixtral - Excellent at structured outputs
+ollama pull mixtral
+inbox-sentinel orchestrate -F email.txt --forwarded --llm-provider ollama --model-name mixtral
+```
+
+**Troubleshooting LLM Orchestration:**
+
+If the LLM gets stuck or doesn't use tools correctly:
+1. **Try a different model** - Mistral and Mixtral are better at tool use than Llama2
+2. **Check Ollama is running** - `curl http://localhost:11434/api/tags`
+3. **Use simple orchestration** - Works reliably without LLM: `--llm-provider simple`
+4. **Install dependencies** - `pip install langchain langchain-community nest-asyncio`
+
+The LLM orchestration provides:
+- Intelligent tool selection based on email characteristics
+- Natural language explanations of decisions
+- Adaptive analysis strategies
+- Context-aware reasoning about phishing patterns
+
+**Note:** Some models (like Llama2) may struggle with the structured format required for tool use. If you experience issues, the simple consensus-based orchestration provides excellent results without requiring an LLM.
+
+#### Example Output (Simple Consensus)
+```
+Orchestrated Email Analysis
+
+Subject: Claim Your Merlin Chain Early Users Reward Now
+Sender: hello@merlinteamnews.blog
+
+Using consensus-based orchestration
+✅ Initialized all 5 models
+
+╭───────── Orchestrated Analysis Result ─────────╮
+│ SPAM/PHISHING                                  │
+│                                                │
+│ Consensus: 4/5 models detected spam            │
+│ Average Confidence: 58.8%                      │
+│                                                │
+│ Individual Results:                            │
+│ • naive_bayes: LEGITIMATE (16.7%)              │
+│ • svm: SPAM (53.5%)                           │
+│ • random_forest: SPAM (28.4%)                 │
+│ • logistic_regression: SPAM (99.9%)           │
+│ • neural_network: SPAM (95.5%)                │
+│                                                │
+│ Recommendation: DO NOT trust this email.       │
+╰────────────────────────────────────────────────╯
+```
 
 ### Python API
 

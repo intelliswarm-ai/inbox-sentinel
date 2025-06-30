@@ -11,6 +11,7 @@ from pathlib import Path
 from inbox_sentinel.core.types import Email, PredictionResult, ModelInfo
 from inbox_sentinel.core.exceptions import ModelNotFoundError, ModelNotTrainedError
 from inbox_sentinel.core.constants import MODELS_DIR
+from inbox_sentinel.utils.pickle_compat import load_model_compat
 
 
 class BaseDetector(ABC):
@@ -102,6 +103,10 @@ class BaseDetector(ABC):
             'model_name': self.model_name
         }
         
+        # Save model-specific attributes
+        if hasattr(self, 'scaler') and self.scaler is not None:
+            model_data['scaler'] = self.scaler
+        
         with open(filepath, 'wb') as f:
             pickle.dump(model_data, f)
         
@@ -125,11 +130,27 @@ class BaseDetector(ABC):
             raise ModelNotFoundError(f"Model file not found: {filepath}")
         
         try:
-            with open(filepath, 'rb') as f:
-                model_data = pickle.load(f)
+            # Try loading with compatibility layer first
+            try:
+                model_data = load_model_compat(filepath)
+            except Exception:
+                # Fall back to regular pickle if compat fails
+                with open(filepath, 'rb') as f:
+                    model_data = pickle.load(f)
             
             self.model = model_data['model']
             self.preprocessor = model_data.get('preprocessor')
+            
+            # Load any model-specific attributes
+            if 'scaler' in model_data:
+                self.scaler = model_data['scaler']
+            
+            # Handle any other model-specific attributes
+            for key, value in model_data.items():
+                if key not in ['model', 'preprocessor', 'algorithm', 'model_name']:
+                    if hasattr(self, key):
+                        setattr(self, key, value)
+            
             self.is_trained = True
             
             self.logger.info(f"Model loaded from {filepath}")

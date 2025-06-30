@@ -57,6 +57,11 @@ setup(
             "mkdocs-material>=9.0.0",
             "mkdocstrings[python]>=0.20.0",
         ],
+        "langchain": [
+            "langchain>=0.1.0",
+            "langchain-community>=0.1.0",
+            "langchain-openai>=0.1.0",
+        ],
     },
     entry_points={
         "console_scripts": [

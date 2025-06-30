@@ -24,7 +24,7 @@ class NeuralNetworkDetector(BaseDetector):
             algorithm="Neural Network"
         )
         self.config = get_model_config().get_model_params(MODEL_NEURAL_NETWORK)
-        self.scaler = StandardScaler()
+        self.scaler = None  # Will be loaded with the model
         
     async def analyze(self, email: Email) -> PredictionResult:
         """Analyze email for spam/phishing using Neural Network"""
