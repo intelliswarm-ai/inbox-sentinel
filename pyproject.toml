@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inbox-sentinel"
+version = "1.0.0"
+description = "Advanced phishing detection system with multiple ML algorithms via FastMCP"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Inbox Sentinel Team", email = "contact@inboxsentinel.ai"}
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastmcp>=2.9.0",
+    "scikit-learn>=1.3.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.20.0",
+]
+
+[project.scripts]
+inbox-sentinel = "inbox_sentinel.cli:main"
+train-models = "inbox_sentinel.scripts.train_models:main"
+verify-models = "inbox_sentinel.scripts.verify_models:main"
+
+[project.urls]
+"Homepage" = "https://github.com/inboxsentinel/inbox-sentinel"
+"Bug Tracker" = "https://github.com/inboxsentinel/inbox-sentinel/issues"
+"Documentation" = "https://inboxsentinel.github.io/inbox-sentinel/"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["inbox_sentinel*"]
+exclude = ["tests*", "docs*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["inbox_sentinel"]
+omit = ["*/tests/*", "*/migrations/*"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
