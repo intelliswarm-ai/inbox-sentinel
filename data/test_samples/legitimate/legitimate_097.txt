@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: registrar@CityUniversity.edu
+Date: Mon, 19 Jan 2025 at 14:45
+Subject: Course Registration Confirmation
+To: testuser@example.com
+
+Dear Jessica,
+
+Your registration for CS 248 has been confirmed.
+
+Course Details:
+- Instructor: Prof. Robert
+- Schedule: MWF 10:00-11:00
+- Room: Room 257
+- Credits: 4
+
+Books and materials list is attached.
+
+Best regards,
+Registrar's Office

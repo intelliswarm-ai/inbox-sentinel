@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@SmartSystems.com
+Date: Mon, 22 Jan 2025 at 14:45
+Subject: SmartSystems Newsletter - March Edition
+To: testuser@example.com
+
+Hello Amanda,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The SmartSystems Team

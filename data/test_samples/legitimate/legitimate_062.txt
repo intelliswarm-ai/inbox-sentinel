@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: events@SystemsPro.com
+Date: Mon, 14 Jan 2025 at 12:30
+Subject: Event Invitation - Networking Event
+To: testuser@example.com
+
+Dear Ashley,
+
+You're invited to our Networking Event on January 1, 2025 at 9:00.
+
+Event highlights:
+- Keynote speakers
+- Networking opportunities
+- Light refreshments
+
+Please RSVP by January 21, 2025.
+
+Looking forward to seeing you there!
+
+Andrew

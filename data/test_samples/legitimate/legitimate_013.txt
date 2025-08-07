@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: billing@NetSolutions.com
+Date: Mon, 21 Jan 2025 at 14:30
+Subject: Invoice #INV9815 - Payment Received
+To: testuser@example.com
+
+Dear Ashley,
+
+Thank you for your payment of $3986.00 for invoice #INV9815. Your payment has been processed successfully.
+
+Invoice Details:
+- Amount: $3986.00
+- Date: January 1, 2025
+- Service: Professional Services
+
+Thank you for your business.
+
+Best regards,
+Accounts Team

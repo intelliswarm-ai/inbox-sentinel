@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@CloudWorks.com
+Date: Mon, 28 Jan 2025 at 10:45
+Subject: CloudWorks Newsletter - April Edition
+To: testuser@example.com
+
+Hello James,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The CloudWorks Team

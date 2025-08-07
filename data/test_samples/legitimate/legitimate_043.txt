@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: registrar@TechCollege.edu
+Date: Mon, 9 Jan 2025 at 17:15
+Subject: Course Registration Confirmation
+To: testuser@example.com
+
+Dear Ashley,
+
+Your registration for CS 187 has been confirmed.
+
+Course Details:
+- Instructor: Prof. Stephanie
+- Schedule: MWF 10:00-11:00
+- Room: Room 214
+- Credits: 3
+
+Books and materials list is attached.
+
+Best regards,
+Registrar's Office

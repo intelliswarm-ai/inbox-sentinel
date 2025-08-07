@@ -1,0 +1,17 @@
+---------- Forwarded message ---------
+From: Michael@SmartSystems.com
+Date: Mon, 28 Jan 2025 at 14:15
+Subject: Weekly Team Meeting - January 23, 2025
+To: testuser@example.com
+
+Hi team,
+
+Our weekly meeting is scheduled for January 23, 2025 at 16:30. We'll discuss project updates and next steps.
+
+Agenda:
+- Sprint review
+- Budget discussions
+- Client feedback
+
+Best regards,
+Michael

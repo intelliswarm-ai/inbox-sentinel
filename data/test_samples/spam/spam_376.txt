@@ -1,0 +1,21 @@
+---------- Forwarded message ---------
+From: security@SecureGuard-alert.com
+Date: Mon, 7 Jan 2025 at 12:00
+Subject: VIRUS DETECTED - Immediate Action Required
+To: testuser@example.com
+
+CRITICAL SECURITY ALERT
+
+21 viruses detected on your computer!
+
+Your personal information is at risk!
+
+Download our removal tool immediately:
+1. Click this link
+2. Install our software
+3. Run full system scan
+
+Don't wait! Your files may be corrupted!
+
+Security Team
+SecureGuard Protection

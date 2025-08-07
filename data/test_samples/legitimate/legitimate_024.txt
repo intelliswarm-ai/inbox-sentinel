@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@DataSys.com
+Date: Mon, 20 Jan 2025 at 17:30
+Subject: DataSys Newsletter - April Edition
+To: testuser@example.com
+
+Hello Jennifer,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The DataSys Team

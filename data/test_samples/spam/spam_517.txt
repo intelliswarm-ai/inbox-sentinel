@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: delivery@FedEx-notify.com
+Date: Mon, 3 Jan 2025 at 11:00
+Subject: Package Delivery Failed - Action Needed
+To: testuser@example.com
+
+DELIVERY NOTIFICATION
+
+We attempted to deliver package #TR656608732 but failed.
+
+To reschedule:
+1. Click tracking link
+2. Verify your address
+3. Pay delivery fee $285
+
+Package will be returned in 2 days if not claimed.
+
+Delivery Services
+FedEx Express

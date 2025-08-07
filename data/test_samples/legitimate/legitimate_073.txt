@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: Andrew@InnovateInc.com
+Date: Mon, 1 Jan 2025 at 17:30
+Subject: Project Update - Q1 Progress
+To: testuser@example.com
+
+Hello Ryan,
+
+I wanted to share our progress on the Titan project. We're currently 87% complete and on track for the deadline.
+
+Key achievements:
+- Completed development phase
+- User testing in progress
+- Documentation updated
+
+Let me know if you have any questions.
+
+Best,
+Andrew

@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: billing@TechFlow.com
+Date: Mon, 18 Jan 2025 at 12:15
+Subject: Invoice #INV3595 - Payment Received
+To: testuser@example.com
+
+Dear Lisa,
+
+Thank you for your payment of $4051.00 for invoice #INV3595. Your payment has been processed successfully.
+
+Invoice Details:
+- Amount: $4051.00
+- Date: January 20, 2025
+- Service: Professional Services
+
+Thank you for your business.
+
+Best regards,
+Accounts Team

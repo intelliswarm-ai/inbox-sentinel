@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@TechFlow.com
+Date: Mon, 24 Jan 2025 at 11:00
+Subject: TechFlow Newsletter - April Edition
+To: testuser@example.com
+
+Hello John,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The TechFlow Team

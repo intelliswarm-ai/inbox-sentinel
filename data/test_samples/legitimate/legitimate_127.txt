@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: Sarah@DigitalHub.com
+Date: Mon, 26 Jan 2025 at 17:30
+Subject: Project Update - Q3 Progress
+To: testuser@example.com
+
+Hello Elizabeth,
+
+I wanted to share our progress on the Alpha project. We're currently 82% complete and on track for the deadline.
+
+Key achievements:
+- Completed development phase
+- User testing in progress
+- Documentation updated
+
+Let me know if you have any questions.
+
+Best,
+Sarah

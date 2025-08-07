@@ -4,18 +4,15 @@ This document provides comprehensive instructions for running Inbox Sentinel usi
 
 ## Overview
 
-Inbox Sentinel uses a microservices architecture with separate containers for each ML model and an orchestrator service that coordinates between them.
+Inbox Sentinel runs as a single containerized application that provides CLI access to all machine learning models and email analysis capabilities.
 
 ## Services Architecture
 
-| Service | Container Name | Port | Description |
-|---------|---------------|------|-------------|
-| **Orchestrator** | `inbox-sentinel` | 8006 | Main service that coordinates model requests |
-| **Naive Bayes** | `inbox-sentinel-naive-bayes` | 8001 | Naive Bayes classifier model |
-| **SVM** | `inbox-sentinel-svm` | 8002 | Support Vector Machine model |
-| **Random Forest** | `inbox-sentinel-random-forest` | 8003 | Random Forest classifier model |
-| **Logistic Regression** | `inbox-sentinel-logistic-regression` | 8004 | Logistic Regression model |
-| **Neural Network** | `inbox-sentinel-neural-network` | 8005 | Neural Network classifier model |
+| Service | Container Name | Description |
+|---------|---------------|-------------|
+| **Inbox Sentinel** | `inbox-sentinel` | Main CLI container for all model operations and analysis |
+
+The architecture has been simplified to use a single container with all models available through CLI commands. This approach is more suitable for development and eliminates the complexity of running multiple MCP server containers.
 
 ## Prerequisites
 
@@ -76,32 +73,131 @@ docker compose restart
 docker compose restart svm
 ```
 
-## API Endpoints
+## Running CLI Commands in Docker
 
-Once running, the services expose the following endpoints:
+All `inbox-sentinel` CLI commands can be executed within the Docker containers using `docker compose exec`.
 
-### Orchestrator (Port 8006)
-- **Health Check:** `GET http://localhost:8006/health`
-- **Classify Email:** `POST http://localhost:8006/classify`
-- **Model Status:** `GET http://localhost:8006/models/status`
+### Model Management
 
-### Individual Models
-Each model service exposes:
-- **Health Check:** `GET http://localhost:800[1-5]/health`
-- **Classify:** `POST http://localhost:800[1-5]/classify`
-- **Model Info:** `GET http://localhost:800[1-5]/info`
-
-Example:
 ```bash
-# Test naive-bayes directly
-curl -X POST http://localhost:8001/classify \
-  -H "Content-Type: application/json" \
-  -d '{"email": "Suspicious email content here"}'
+# View available models and their status
+docker compose exec inbox-sentinel inbox-sentinel models list
 
-# Test orchestrator (uses all models)
-curl -X POST http://localhost:8006/classify \
-  -H "Content-Type: application/json" \
-  -d '{"email": "Email to analyze"}'
+# Train all models (requires training data in ./data/)
+docker compose exec inbox-sentinel inbox-sentinel models train
+
+# Verify trained models
+docker compose exec inbox-sentinel inbox-sentinel models verify
+```
+
+### Email Analysis
+
+```bash
+# Analyze an email with content, subject, and sender
+docker compose exec inbox-sentinel inbox-sentinel analyze \
+  -c "Email content here" \
+  -s "Subject line" \
+  -f "sender@email.com"
+
+# Analyze a forwarded Gmail email (file must be in ./data/ or ./testfiles/)
+docker compose exec inbox-sentinel inbox-sentinel analyze \
+  -F /app/data/forwarded_email.txt --forwarded
+
+# Alternative: Copy file to container and analyze
+docker cp forwarded_email.txt inbox-sentinel:/app/
+docker compose exec inbox-sentinel inbox-sentinel analyze \
+  -F forwarded_email.txt --forwarded
+```
+
+### Model Orchestration
+
+```bash
+# Orchestrate multiple models with consensus (from file)
+docker compose exec inbox-sentinel inbox-sentinel orchestrate \
+  -F /app/data/email.txt --forwarded
+
+# Orchestrate with direct content (must be in forwarded email format)
+docker compose exec inbox-sentinel inbox-sentinel orchestrate \
+  -c "---------- Forwarded message ---------
+From: sender@suspicious.com
+Subject: Urgent Action Required
+To: you@email.com
+
+Your account has been suspended! Click here immediately..." \
+  --forwarded
+
+# Use Ollama for LLM-enhanced orchestration (requires Ollama server)
+docker compose exec inbox-sentinel inbox-sentinel orchestrate \
+  -F /app/data/email.txt --forwarded --llm-provider ollama
+```
+
+### Server Management
+
+```bash
+# Start specific MCP servers (already handled by docker-compose)
+docker compose exec inbox-sentinel inbox-sentinel server start neural-network
+
+# Check server status
+docker compose exec inbox-sentinel inbox-sentinel server status
+
+# View server logs
+docker compose exec inbox-sentinel inbox-sentinel server logs neural-network
+```
+
+### Working with Files
+
+To analyze local email files, you have several options:
+
+**Option 1: Use mounted volumes (recommended)**
+```bash
+# Place your email files in ./data/ or ./testfiles/
+cp my_email.txt ./data/
+docker compose exec inbox-sentinel inbox-sentinel analyze -F /app/data/my_email.txt --forwarded
+```
+
+**Option 2: Copy files to container**
+```bash
+# Copy file to running container
+docker cp my_email.txt inbox-sentinel:/app/
+docker compose exec inbox-sentinel inbox-sentinel analyze -F my_email.txt --forwarded
+```
+
+**Option 3: Use stdin**
+```bash
+# Pipe content directly
+echo "Email content here" | docker compose exec -T inbox-sentinel inbox-sentinel analyze -c -
+```
+
+### Interactive Shell
+
+For multiple commands or debugging:
+
+```bash
+# Access interactive shell
+docker compose exec inbox-sentinel bash
+
+# Inside container, run commands normally:
+# inbox-sentinel models list
+# inbox-sentinel analyze -c "content" -s "subject" -f "from@email.com"
+# exit
+```
+
+## Testing the Setup
+
+You can verify the installation works correctly:
+
+```bash
+# Check all models are available
+docker compose exec inbox-sentinel inbox-sentinel models list
+
+# Get system information
+docker compose exec inbox-sentinel inbox-sentinel info
+
+# Test analysis with demo content
+docker compose exec inbox-sentinel inbox-sentinel analyze \
+  -c "Congratulations! You've won $1 million! Click here to claim your prize now!" \
+  -s "Urgent: Claim Your Prize!" \
+  -f "winner@lottery-scam.com"
 ```
 
 ## Data and Logs

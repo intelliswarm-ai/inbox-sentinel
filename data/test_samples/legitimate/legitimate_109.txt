@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: Michael@InfoTech.com
+Date: Mon, 20 Jan 2025 at 11:00
+Subject: Project Update - Q2 Progress
+To: testuser@example.com
+
+Hello Emma,
+
+I wanted to share our progress on the Nova project. We're currently 77% complete and on track for the deadline.
+
+Key achievements:
+- Completed development phase
+- User testing in progress
+- Documentation updated
+
+Let me know if you have any questions.
+
+Best,
+Michael
