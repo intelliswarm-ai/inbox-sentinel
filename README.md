@@ -86,6 +86,54 @@ Models trained on **161,640 emails** from 6 datasets:
 
 **Distribution**: 51% spam/phishing, 49% legitimate
 
+## 🐳 Docker Usage
+
+### Using Docker Compose (Recommended)
+
+Run all model servers simultaneously:
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Start specific services
+docker-compose up orchestrator naive-bayes svm
+
+# Run in background
+docker-compose up -d
+```
+
+The services will be available at:
+- **Orchestrator**: http://localhost:8000 (coordinates all models)
+- **Naive Bayes**: http://localhost:8001
+- **SVM**: http://localhost:8002  
+- **Random Forest**: http://localhost:8003
+- **Logistic Regression**: http://localhost:8004
+- **Neural Network**: http://localhost:8005
+
+### Using Docker Directly
+
+```bash
+# Build the image
+docker build -t inbox-sentinel .
+
+# Run single model server
+docker run -p 8000:8000 -v $(pwd)/data:/app/data inbox-sentinel \
+  inbox-sentinel server start neural-network
+
+# Run with custom command
+docker run -it inbox-sentinel inbox-sentinel --help
+```
+
+### Docker Environment
+
+The container includes:
+- Python 3.11 slim base
+- All required dependencies
+- Pre-trained models in `/app/data/models/`
+- Non-root user for security
+- Volume mounts for data persistence
+
 ## 📖 Usage
 
 ### Orchestrated Analysis
