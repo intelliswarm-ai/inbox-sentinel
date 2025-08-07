@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: Sarah@SystemsPro.com
+Date: Mon, 4 Jan 2025 at 11:15
+Subject: Project Update - Q4 Progress
+To: testuser@example.com
+
+Hello Andrew,
+
+I wanted to share our progress on the Phoenix project. We're currently 92% complete and on track for the deadline.
+
+Key achievements:
+- Completed development phase
+- User testing in progress
+- Documentation updated
+
+Let me know if you have any questions.
+
+Best,
+Sarah

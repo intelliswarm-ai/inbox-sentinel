@@ -1,0 +1,17 @@
+---------- Forwarded message ---------
+From: Sarah@DigitalHub.com
+Date: Mon, 22 Jan 2025 at 10:45
+Subject: Weekly Team Meeting - January 1, 2025
+To: testuser@example.com
+
+Hi team,
+
+Our weekly meeting is scheduled for January 1, 2025 at 12:30. We'll discuss project updates and next steps.
+
+Agenda:
+- Sprint review
+- Budget discussions
+- Client feedback
+
+Best regards,
+Sarah

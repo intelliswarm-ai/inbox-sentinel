@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: events@DigitalHub.com
+Date: Mon, 11 Jan 2025 at 13:45
+Subject: Event Invitation - Tech Summit
+To: testuser@example.com
+
+Dear Elizabeth,
+
+You're invited to our Tech Summit on January 29, 2025 at 10:00.
+
+Event highlights:
+- Keynote speakers
+- Networking opportunities
+- Light refreshments
+
+Please RSVP by January 10, 2025.
+
+Looking forward to seeing you there!
+
+Jennifer

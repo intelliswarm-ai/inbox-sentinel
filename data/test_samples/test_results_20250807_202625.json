@@ -1,0 +1,164 @@
+{
+  "naive_bayes": {
+    "metrics": {
+      "total_samples": 1000,
+      "correct_predictions": 833,
+      "accuracy": 0.833,
+      "precision": 0.893167701863354,
+      "recall": 0.89875,
+      "specificity": 0.57,
+      "f1_score": 0.8959501557632399,
+      "confusion_matrix": {
+        "true_positive": 719,
+        "true_negative": 114,
+        "false_positive": 86,
+        "false_negative": 81
+      }
+    },
+    "timing_stats": {
+      "total_samples": 1000,
+      "total_time": 2.1001734733581543,
+      "average_time": 0.002100173473358154,
+      "median_time": 0.002005934715270996,
+      "min_time": 0.0019023418426513672,
+      "max_time": 0.03756117820739746,
+      "std_deviation": 0.0011375523054396712
+    },
+    "sample_count": 1000
+  },
+  "svm": {
+    "metrics": {
+      "total_samples": 1000,
+      "correct_predictions": 937,
+      "accuracy": 0.937,
+      "precision": 0.936094674556213,
+      "recall": 0.98875,
+      "specificity": 0.73,
+      "f1_score": 0.9617021276595745,
+      "confusion_matrix": {
+        "true_positive": 791,
+        "true_negative": 146,
+        "false_positive": 54,
+        "false_negative": 9
+      }
+    },
+    "timing_stats": {
+      "total_samples": 1000,
+      "total_time": 12.941874742507935,
+      "average_time": 0.012941874742507934,
+      "median_time": 0.012846589088439941,
+      "min_time": 0.011966705322265625,
+      "max_time": 0.01674675941467285,
+      "std_deviation": 0.0006030757691070297
+    },
+    "sample_count": 1000
+  },
+  "random_forest": {
+    "metrics": {
+      "total_samples": 1000,
+      "correct_predictions": 793,
+      "accuracy": 0.793,
+      "precision": 0.8130939809926082,
+      "recall": 0.9625,
+      "specificity": 0.115,
+      "f1_score": 0.8815111619919862,
+      "confusion_matrix": {
+        "true_positive": 770,
+        "true_negative": 23,
+        "false_positive": 177,
+        "false_negative": 30
+      }
+    },
+    "timing_stats": {
+      "total_samples": 1000,
+      "total_time": 113.96430039405823,
+      "average_time": 0.11396430039405822,
+      "median_time": 0.10898566246032715,
+      "min_time": 0.08544754981994629,
+      "max_time": 1.448493242263794,
+      "std_deviation": 0.08451247637247654
+    },
+    "sample_count": 1000
+  },
+  "logistic_regression": {
+    "metrics": {
+      "total_samples": 1000,
+      "correct_predictions": 923,
+      "accuracy": 0.923,
+      "precision": 0.9122006841505131,
+      "recall": 1.0,
+      "specificity": 0.615,
+      "f1_score": 0.9540846750149077,
+      "confusion_matrix": {
+        "true_positive": 800,
+        "true_negative": 123,
+        "false_positive": 77,
+        "false_negative": 0
+      }
+    },
+    "timing_stats": {
+      "total_samples": 1000,
+      "total_time": 1.7914998531341553,
+      "average_time": 0.0017914998531341553,
+      "median_time": 0.0017625093460083008,
+      "min_time": 0.001653432846069336,
+      "max_time": 0.002857685089111328,
+      "std_deviation": 0.00011266568412235029
+    },
+    "sample_count": 1000
+  },
+  "neural_network": {
+    "metrics": {
+      "total_samples": 1000,
+      "correct_predictions": 919,
+      "accuracy": 0.919,
+      "precision": 0.9080590238365494,
+      "recall": 1.0,
+      "specificity": 0.595,
+      "f1_score": 0.9518143961927424,
+      "confusion_matrix": {
+        "true_positive": 800,
+        "true_negative": 119,
+        "false_positive": 81,
+        "false_negative": 0
+      }
+    },
+    "timing_stats": {
+      "total_samples": 1000,
+      "total_time": 1.716764211654663,
+      "average_time": 0.0017167642116546632,
+      "median_time": 0.0016564130783081055,
+      "min_time": 0.0014882087707519531,
+      "max_time": 0.002833843231201172,
+      "std_deviation": 0.0001857612379756913
+    },
+    "sample_count": 1000
+  },
+  "orchestrator": {
+    "metrics": {
+      "total_samples": 1000,
+      "correct_predictions": 914,
+      "accuracy": 0.914,
+      "precision": 0.9038461538461539,
+      "recall": 0.99875,
+      "specificity": 0.575,
+      "f1_score": 0.9489311163895486,
+      "confusion_matrix": {
+        "true_positive": 799,
+        "true_negative": 115,
+        "false_positive": 85,
+        "false_negative": 1
+      }
+    },
+    "timing_stats": {
+      "total_samples": 1000,
+      "total_time": 134.64553236961365,
+      "average_time": 0.13464553236961366,
+      "median_time": 0.12948966026306152,
+      "min_time": 0.10139751434326172,
+      "max_time": 1.5015532970428467,
+      "std_deviation": 0.08510743481662252
+    },
+    "sample_count": 1000
+  }
+}

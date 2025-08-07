@@ -1,0 +1,17 @@
+---------- Forwarded message ---------
+From: John@FutureSoft.com
+Date: Mon, 10 Jan 2025 at 16:00
+Subject: Weekly Team Meeting - January 30, 2025
+To: testuser@example.com
+
+Hi team,
+
+Our weekly meeting is scheduled for January 30, 2025 at 14:30. We'll discuss project updates and next steps.
+
+Agenda:
+- Sprint review
+- Budget discussions
+- Client feedback
+
+Best regards,
+John

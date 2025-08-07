@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: John@InnovateInc.com
+Date: Mon, 15 Jan 2025 at 12:45
+Subject: Project Update - Q3 Progress
+To: testuser@example.com
+
+Hello Jessica,
+
+I wanted to share our progress on the Beta project. We're currently 85% complete and on track for the deadline.
+
+Key achievements:
+- Completed development phase
+- User testing in progress
+- Documentation updated
+
+Let me know if you have any questions.
+
+Best,
+John

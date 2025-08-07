@@ -1,0 +1,16 @@
+---------- Forwarded message ---------
+From: appointments@TechFlow.com
+Date: Mon, 11 Jan 2025 at 14:45
+Subject: Appointment Confirmation - January 24, 2025
+To: testuser@example.com
+
+Dear Megan,
+
+This confirms your appointment on January 24, 2025 at 12:00 with Dr. Dr. Anna.
+
+Location: 266 Main St, City, State
+
+Please arrive 15 minutes early and bring a valid ID.
+
+Best regards,
+Health Center

@@ -1,0 +1,16 @@
+---------- Forwarded message ---------
+From: appointments@TechCorp.com
+Date: Mon, 23 Jan 2025 at 17:15
+Subject: Appointment Confirmation - January 18, 2025
+To: testuser@example.com
+
+Dear John,
+
+This confirms your appointment on January 18, 2025 at 15:00 with Dr. Dr. Nicole.
+
+Location: 191 Main St, City, State
+
+Please arrive 15 minutes early and bring a valid ID.
+
+Best regards,
+Health Center

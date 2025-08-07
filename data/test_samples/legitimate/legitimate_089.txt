@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: events@DigitalHub.com
+Date: Mon, 21 Jan 2025 at 12:00
+Subject: Event Invitation - Networking Event
+To: testuser@example.com
+
+Dear Anna,
+
+You're invited to our Networking Event on January 19, 2025 at 13:30.
+
+Event highlights:
+- Keynote speakers
+- Networking opportunities
+- Light refreshments
+
+Please RSVP by January 25, 2025.
+
+Looking forward to seeing you there!
+
+Michael

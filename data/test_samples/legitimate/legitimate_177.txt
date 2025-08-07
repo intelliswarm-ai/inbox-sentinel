@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@NetSolutions.com
+Date: Mon, 6 Jan 2025 at 10:00
+Subject: NetSolutions Newsletter - January Edition
+To: testuser@example.com
+
+Hello Lisa,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The NetSolutions Team

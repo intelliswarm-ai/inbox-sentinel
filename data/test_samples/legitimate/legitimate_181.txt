@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: John@CloudWorks.com
+Date: Mon, 15 Jan 2025 at 10:00
+Subject: Project Update - Q3 Progress
+To: testuser@example.com
+
+Hello Emma,
+
+I wanted to share our progress on the Beta project. We're currently 88% complete and on track for the deadline.
+
+Key achievements:
+- Completed development phase
+- User testing in progress
+- Documentation updated
+
+Let me know if you have any questions.
+
+Best,
+John

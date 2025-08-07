@@ -1,0 +1,18 @@
+---------- Forwarded message ---------
+From: billing@Apple-update.com
+Date: Mon, 20 Jan 2025 at 12:30
+Subject: Update Your Payment Information
+To: testuser@example.com
+
+Dear Customer,
+
+Your payment method for Apple has failed. Update immediately to avoid service interruption.
+
+Click here to:
+- Update credit card
+- Verify billing address
+- Confirm payment
+
+Your account will be suspended in 48 hours if not updated.
+
+Customer Service

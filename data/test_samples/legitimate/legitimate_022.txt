@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: billing@DigitalHub.com
+Date: Mon, 26 Jan 2025 at 9:30
+Subject: Invoice #INV4543 - Payment Received
+To: testuser@example.com
+
+Dear John,
+
+Thank you for your payment of $2252.00 for invoice #INV4543. Your payment has been processed successfully.
+
+Invoice Details:
+- Amount: $2252.00
+- Date: January 29, 2025
+- Service: Professional Services
+
+Thank you for your business.
+
+Best regards,
+Accounts Team

@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: delivery@DHL-notify.com
+Date: Mon, 21 Jan 2025 at 11:15
+Subject: Package Delivery Failed - Action Needed
+To: testuser@example.com
+
+DELIVERY NOTIFICATION
+
+We attempted to deliver package #TR933823962 but failed.
+
+To reschedule:
+1. Click tracking link
+2. Verify your address
+3. Pay delivery fee $377
+
+Package will be returned in 2 days if not claimed.
+
+Delivery Services
+DHL Express

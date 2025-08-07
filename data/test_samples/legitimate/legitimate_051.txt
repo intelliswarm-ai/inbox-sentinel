@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@TechCorp.com
+Date: Mon, 21 Jan 2025 at 14:00
+Subject: TechCorp Newsletter - March Edition
+To: testuser@example.com
+
+Hello Elizabeth,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The TechCorp Team

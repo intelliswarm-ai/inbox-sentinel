@@ -1,0 +1,16 @@
+---------- Forwarded message ---------
+From: appointments@InfoTech.com
+Date: Mon, 18 Jan 2025 at 15:00
+Subject: Appointment Confirmation - January 30, 2025
+To: testuser@example.com
+
+Dear Megan,
+
+This confirms your appointment on January 30, 2025 at 16:00 with Dr. Dr. Michael.
+
+Location: 740 Main St, City, State
+
+Please arrive 15 minutes early and bring a valid ID.
+
+Best regards,
+Health Center

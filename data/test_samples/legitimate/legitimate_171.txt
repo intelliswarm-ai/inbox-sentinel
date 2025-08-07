@@ -1,0 +1,17 @@
+---------- Forwarded message ---------
+From: Matthew@CloudWorks.com
+Date: Mon, 12 Jan 2025 at 16:15
+Subject: Weekly Team Meeting - January 21, 2025
+To: testuser@example.com
+
+Hi team,
+
+Our weekly meeting is scheduled for January 21, 2025 at 17:30. We'll discuss project updates and next steps.
+
+Agenda:
+- Sprint review
+- Budget discussions
+- Client feedback
+
+Best regards,
+Matthew

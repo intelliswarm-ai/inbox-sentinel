@@ -1,0 +1,19 @@
+---------- Forwarded message ---------
+From: newsletter@GlobalTech.com
+Date: Mon, 20 Jan 2025 at 9:45
+Subject: GlobalTech Newsletter - April Edition
+To: testuser@example.com
+
+Hello Chris,
+
+Welcome to our monthly newsletter! This month we're featuring:
+
+- New product launches
+- Customer success stories
+- Upcoming events
+- Industry insights
+
+Read more at our website.
+
+Best regards,
+The GlobalTech Team

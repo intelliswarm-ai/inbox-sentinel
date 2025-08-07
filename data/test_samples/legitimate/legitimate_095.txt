@@ -1,0 +1,16 @@
+---------- Forwarded message ---------
+From: appointments@DigitalHub.com
+Date: Mon, 13 Jan 2025 at 14:15
+Subject: Appointment Confirmation - January 4, 2025
+To: testuser@example.com
+
+Dear Sarah,
+
+This confirms your appointment on January 4, 2025 at 17:30 with Dr. Dr. Andrew.
+
+Location: 647 Main St, City, State
+
+Please arrive 15 minutes early and bring a valid ID.
+
+Best regards,
+Health Center

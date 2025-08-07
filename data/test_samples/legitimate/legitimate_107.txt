@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: events@CloudWorks.com
+Date: Mon, 23 Jan 2025 at 17:45
+Subject: Event Invitation - Tech Summit
+To: testuser@example.com
+
+Dear Stephanie,
+
+You're invited to our Tech Summit on January 14, 2025 at 12:30.
+
+Event highlights:
+- Keynote speakers
+- Networking opportunities
+- Light refreshments
+
+Please RSVP by January 25, 2025.
+
+Looking forward to seeing you there!
+
+Ashley

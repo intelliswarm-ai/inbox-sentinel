@@ -1,0 +1,20 @@
+---------- Forwarded message ---------
+From: events@TechFlow.com
+Date: Mon, 16 Jan 2025 at 14:45
+Subject: Event Invitation - Annual Conference
+To: testuser@example.com
+
+Dear Mike,
+
+You're invited to our Annual Conference on January 25, 2025 at 11:00.
+
+Event highlights:
+- Keynote speakers
+- Networking opportunities
+- Light refreshments
+
+Please RSVP by January 10, 2025.
+
+Looking forward to seeing you there!
+
+Joshua
