@@ -9,9 +9,18 @@ from .langchain_orchestrator import (
     MCPServerTool
 )
 
+from .rl_orchestrator import (
+    RLEnhancedOrchestrator,
+    QLearningAgent,
+    RLState
+)
+
 __all__ = [
     "LangChainOrchestrator",
     "SimpleOrchestrator", 
     "OrchestrationConfig",
-    "MCPServerTool"
+    "MCPServerTool",
+    "RLEnhancedOrchestrator",
+    "QLearningAgent",
+    "RLState"
 ]

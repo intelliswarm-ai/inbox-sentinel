@@ -404,6 +404,134 @@ def orchestrate(email_content, file, forwarded, llm_provider, model_name):
 
 
 @cli.command()
+@click.option('--email-content', '-c', help='Email content')
+@click.option('--file', '-F', type=click.File('r', encoding='utf-8'), help='Read email from file')
+@click.option('--forwarded', '-fw', is_flag=True, help='Parse as forwarded email')
+@click.option('--model-path', help='Path to trained RL model (optional)')
+def rl_analyze(email_content, file, forwarded, model_path):
+    """Analyze email using RL-enhanced orchestration"""
+    import asyncio
+    from inbox_sentinel.core.types import Email
+    from inbox_sentinel.utils.email_parser import parse_gmail_forward
+    from inbox_sentinel.orchestration.rl_orchestrator import RLEnhancedOrchestrator
+    from rich.panel import Panel
+    from rich.markdown import Markdown
+    
+    # Handle input sources (similar to analyze command)
+    if file:
+        email_text = file.read()
+        if forwarded:
+            email = parse_gmail_forward(email_text)
+        else:
+            email = Email(
+                content=email_text.strip(),
+                subject="Email from file",
+                sender="unknown@file.com"
+            )
+    elif email_content:
+        if forwarded:
+            email = parse_gmail_forward(email_content)
+        else:
+            console.print("[red]Error: For direct content, use --forwarded or provide via --file[/red]")
+            return
+    else:
+        console.print("[red]Error: Provide either --email-content or --file[/red]")
+        return
+    
+    console.print(f"[bold cyan]RL Enhanced Email Analysis[/bold cyan]\n")
+    console.print(f"[dim]Subject: {email.subject}[/dim]")
+    console.print(f"[dim]Sender: {email.sender}[/dim]\n")
+    
+    async def run_rl_analysis():
+        try:
+            # Initialize RL orchestrator
+            if model_path and Path(model_path).exists():
+                console.print(f"[yellow]Loading RL model from: {model_path}[/yellow]")
+                rl_orchestrator = RLEnhancedOrchestrator(model_path=model_path)
+            else:
+                # Try to load default model
+                default_model_path = "/app/data/models/rl_orchestrator_model.pkl"
+                if Path(default_model_path).exists():
+                    console.print(f"[yellow]Loading default RL model[/yellow]")
+                    rl_orchestrator = RLEnhancedOrchestrator(model_path=default_model_path)
+                else:
+                    console.print("[yellow]Using untrained RL orchestrator[/yellow]")
+                    rl_orchestrator = RLEnhancedOrchestrator()
+            
+            await rl_orchestrator.initialize()
+            
+            # Analyze email
+            console.print("[yellow]Analyzing email with RL orchestrator...[/yellow]")
+            result = await rl_orchestrator.predict(email)
+            
+            if result['success']:
+                # Extract state information
+                rl_state = result.get('rl_state')
+                
+                # Create analysis content
+                status_icon = "⚠️" if result['is_spam'] else "✅"
+                status_text = "SPAM/PHISHING DETECTED" if result['is_spam'] else "LEGITIMATE EMAIL"
+                status_color = "red" if result['is_spam'] else "green"
+                
+                analysis_content = f"""
+{status_icon} [bold {status_color}]{status_text}[/bold {status_color}]
+
+[bold]RL Confidence:[/bold] {result['confidence']:.3f}
+[bold]Spam Probability:[/bold] {result['spam_probability']:.3f}
+
+[bold]RL State Analysis:[/bold]
+• Model Consensus: {rl_state.spam_votes}/5 models voted spam
+• Agreement Level: {rl_state.agreement_level:.3f}
+• Average Model Confidence: {rl_state.avg_confidence:.3f}
+• Confidence Variance: {rl_state.confidence_variance:.3f}
+
+[bold]Email Context Features:[/bold]
+• Content Length: {rl_state.content_length} characters
+• Subject Length: {rl_state.subject_length} characters
+• Contains URLs: {'Yes' if rl_state.has_urls else 'No'}
+• Contains Money Terms: {'Yes' if rl_state.has_money_terms else 'No'}
+• Contains Urgent Terms: {'Yes' if rl_state.has_urgent_terms else 'No'}
+
+[bold]Individual Model Results:[/bold]"""
+                
+                # Add individual model results
+                for model_name, details in result['detailed_results'].items():
+                    verdict = "SPAM" if details['is_spam'] else "HAM"
+                    verdict_color = "red" if details['is_spam'] else "green"
+                    analysis_content += f"\n• **{model_name.replace('_', ' ').title()}**: [{verdict_color}]{verdict}[/{verdict_color}] (conf: {details['confidence']:.3f})"
+                
+                analysis_content += f"""
+
+*Powered by Reinforcement Learning Enhanced Orchestration*
+*State Vector Dimension: {len(rl_state.to_vector())} features*
+"""
+                
+                # Display result
+                console.print(Panel(
+                    analysis_content.strip(),
+                    title="RL Enhanced Analysis Results",
+                    border_style=status_color
+                ))
+                
+                # Add recommendation
+                if result['is_spam']:
+                    console.print("\n[yellow]⚠️  RL Recommendation: This email appears to be spam or phishing based on learned patterns. Exercise caution.[/yellow]")
+                else:
+                    console.print("\n[green]✅ This email appears legitimate according to RL analysis.[/green]")
+            
+            else:
+                console.print(f"[red]RL Analysis failed: {result.get('error', 'Unknown error')}[/red]")
+                
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            import traceback
+            console.print(f"[dim]{traceback.format_exc()}[/dim]")
+    
+    # Run the RL analysis
+    asyncio.run(run_rl_analysis())
+
+
+@cli.command()
 def info():
     """Show system information"""
     settings = get_settings()
@@ -414,6 +542,13 @@ def info():
     console.print(f"Data Directory: {settings.data_dir}")
     console.print(f"Use Pretrained Models: {settings.use_pretrained_models}")
     console.print(f"Max Training Samples: {settings.max_training_samples}")
+    
+    # Check for RL model
+    rl_model_path = settings.models_dir / "rl_orchestrator_model.pkl"
+    if rl_model_path.exists():
+        console.print(f"[green]RL Orchestrator Model: Available ({rl_model_path.stat().st_size / 1024:.1f} KB)[/green]")
+    else:
+        console.print(f"[yellow]RL Orchestrator Model: Not trained[/yellow]")
 
 
 def main():
