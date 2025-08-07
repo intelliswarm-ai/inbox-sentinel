@@ -1,0 +1,79 @@
+services:
+  inbox-sentinel:
+    build: .
+    container_name: inbox-sentinel
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8006:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: ["inbox-sentinel", "server", "start", "orchestrator"]
+    restart: unless-stopped
+
+  # Individual model servers
+  naive-bayes:
+    build: .
+    container_name: inbox-sentinel-naive-bayes
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: ["inbox-sentinel", "server", "start", "naive-bayes"]
+    restart: unless-stopped
+
+  svm:
+    build: .
+    container_name: inbox-sentinel-svm
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8002:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: ["inbox-sentinel", "server", "start", "svm"]
+    restart: unless-stopped
+
+  random-forest:
+    build: .
+    container_name: inbox-sentinel-random-forest
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8003:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: ["inbox-sentinel", "server", "start", "random-forest"]
+    restart: unless-stopped
+
+  logistic-regression:
+    build: .
+    container_name: inbox-sentinel-logistic-regression
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8004:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: ["inbox-sentinel", "server", "start", "logistic-regression"]
+    restart: unless-stopped
+
+  neural-network:
+    build: .
+    container_name: inbox-sentinel-neural-network
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8005:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: ["inbox-sentinel", "server", "start", "neural-network"]
+    restart: unless-stopped
